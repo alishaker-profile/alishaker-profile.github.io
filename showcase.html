@@ -1991,7 +1991,7 @@ $("waCta").addEventListener("click",()=>track(VARIANT==="show"?"mostaql_cta":"wh
 applyMode();applyLang();tag("lang",lang);tag("variant",VARIANT);
 {const yr=$("yr");if(yr)yr.textContent=new Date().getFullYear()}
 $("fBe").addEventListener("click",()=>track("link_behance_footer"));$("fLi").addEventListener("click",()=>track("link_linkedin_footer"));
-tag("build","v2.3.2");   /* one build for every device since v2.2; the old "desktop" value was on phones too */
+tag("build","v2.3.3");   /* one build for every device since v2.2; the old "desktop" value was on phones too */
 
 /* header state */
 const hdr=$("hdr");const onScroll=()=>hdr.classList.toggle("scrolled",scrollY>8);addEventListener("scroll",onScroll,{passive:true});onScroll();
@@ -2017,7 +2017,9 @@ window.FX=(()=>{const c=$("fx"),x=c.getContext("2d");
   const ease=k=>k<.5?4*k*k*k:1-Math.pow(-2*k+2,3)/2;
   function readColors(){const cs=getComputedStyle(root);G=rgb(cs.getPropertyValue("--gold").trim()||"#D2B57E");E=rgb(cs.getPropertyValue("--teal").trim()||"#80C4B4");
     FONT="10px "+(cs.getPropertyValue("--f-mono").trim()||"monospace")}
-  function gridTargets(){const n=P.length;if(!n)return;const g=Math.sqrt(W*H/n);let cols=Math.max(1,Math.round(W/g)),rows=Math.ceil(n/cols);
+  function gridTargets(){const n=P.length;if(!n)return;
+    if(!W||!H){P.forEach(p=>{p.gx=p.x;p.gy=p.y});return}   /* 0×0 window (hidden pane, webview): no grid to build yet; size() rebuilds it on resize */
+    const g=Math.sqrt(W*H/n);let cols=Math.max(1,Math.round(W/g)),rows=Math.ceil(n/cols);
     gxs=W/cols;gys=H/rows;const free=[];for(let r=0;r<rows;r++)for(let k=0;k<cols;k++)free.push([gxs*(k+.5),gys*(r+.5)]);
     P.forEach(p=>{let bi=0,bd=1e18;for(let i=0;i<free.length;i++){const d=(free[i][0]-p.x)**2+(free[i][1]-p.y)**2;if(d<bd){bd=d;bi=i}}const t=free.splice(bi,1)[0];p.gx=t[0];p.gy=t[1]})}
   function size(){W=innerWidth;H=innerHeight;c.width=W*dpr;c.height=H*dpr;x.setTransform(dpr,0,0,dpr,0,0);
